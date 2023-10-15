@@ -1,6 +1,6 @@
-# Study about Apache Kafka
+# Study about Apache Kafka and Dotnet
 
-This repository contains any projects test using Apache Kafka Topics.
+This repository contains any sample projects to integration between .Net and Apache Kafka.
 
 ## Before running a Sample Project
 
