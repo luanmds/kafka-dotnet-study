@@ -2,10 +2,22 @@ version: "3.8"
 services:
   api:
     build: 
-      context: src/UrlShortener.Api
+      context: src/ScoreCalculator.Api
       dockerfile: Dockerfile
     ports:
       - "8000:80"
+    links:
+      - mongo
+  loader:
+    build: 
+      context: src/ScoreCalculator.Loader
+      dockerfile: Dockerfile.loader
+    links:
+      - mongo
+  worker:
+    build: 
+      context: src/ScoreCalculator.Worker
+      dockerfile: Dockerfile.worker
     links:
       - mongo
   mongo:

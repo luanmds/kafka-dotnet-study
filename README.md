@@ -23,6 +23,10 @@ References:
 - [Kafdrop - Kafka Client](https://github.com/obsidiandynamics/kafdrop)
 - [Configs to Kafka in various machines types](https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/)
 
+Others References:
+- [Saga Pattern]()
+- [Compensating Transactions]()
+
 
 ## Sample 01 - Basic Consumer and Producer Services
 
@@ -51,9 +55,9 @@ dotnet run --project ./ConsoleProducer/
 ```
 Both projects will be run and send a default message instantly. You can see the generated message in Console terminal output and Kafka UI in **localhost:19000**.
 
-## Sample 02 - Complex Example with CQRS, Kafka and MediatR framework
+## Sample 02 - Complete Example with CQRS, Kafka and MediatR framework
 
-[description of projects]
+There are three .Net projects to simulate a simple ScoreCalculator application
 
 ### How Execute
 

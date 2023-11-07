@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{27DCD72B-EB33-46D5-840A-52FAC80ABF29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlShortener.Api", "src\UrlShortener.Api\UrlShortener.Api.csproj", "{2EF91E10-BB0A-4347-9806-D3533B5701CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScoreCalculator.Api", "src\ScoreCalculator.Api\ScoreCalculator.Api.csproj", "{2EF91E10-BB0A-4347-9806-D3533B5701CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlShortener.Domain", "src\UrlShortener.Domain\UrlShortener.Domain.csproj", "{B7F6FC85-5307-45D1-8161-9CF7B9863111}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScoreCalculator.Domain", "src\ScoreCalculator.Domain\ScoreCalculator.Domain.csproj", "{B7F6FC85-5307-45D1-8161-9CF7B9863111}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
