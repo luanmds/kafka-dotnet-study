@@ -1,5 +1,14 @@
 version: '3'
 services:
+  schema-registry:
+    image: bitnami/schema-registry:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - broker-kafka
+    environment:
+      - SCHEMA_REGISTRY_DEBUG=true
+      - SCHEMA_REGISTRY_KAFKA_BROKERS=PLAINTEXT://localhost:9092
   zookeeper:
     image: bitnami/zookeeper:latest
     ports:
@@ -24,7 +33,7 @@ services:
       KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_CFG_NUM_PARTITIONS: 1
-      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: false
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "false"
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
 
   kafdrop:
