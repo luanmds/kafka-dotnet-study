@@ -1,11 +1,8 @@
-﻿namespace ScoreCalculator.Domain.Repository
+﻿namespace ScoreCalculator.Domain.Repository;
+
+public class DatabaseSettings
 {
-    public class DatabaseSettings
-    {
-        public string ConnectionString { get; set; } = null!;
+    public string ConnectionString { get; set; } = null!;
 
-        public string DatabaseName { get; set; } = null!;
-
-        public string UrlsCollectionName { get; set; } = null!;
-    }
+    public string DatabaseName { get; set; } = null!;
 }
