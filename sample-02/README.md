@@ -17,14 +17,19 @@ The Worker project focuses on action to calculate score:
 This project uses a **JSON schema** from *Schema-Registry* to keep a message format compatible between apps.
 
 ## Basic diagrams (Make in Mermaid.js)
-### Flow diagram
+### Flow messages diagram
 
 ```mermaid
-    graph LR
-        A[Api] -->|Send Command <br/>| B(Kafka Topic);
-        C -->|Send Command <br/>| B(Kafka Topic);
-        B -->|Send Message| C(Loader);
-        B -->|Send Message| D(Worker);
+    flowchart LR
+        B(SchemaRegistry)
+        C(Kafka Topic) 
+        A[Api] -->|De/Serialize Message| B
+        A[Api] -->|Send Message <br/>| C 
+        D[Loader] -->|Send/Receive Message| C
+        D[Loader] -->|De/Serialize Message| B 
+        E[Worker] -->|Receive Message| C
+        E[Worker] -->|Deserialize Message| B 
+
 ```
 
 ### Sequence Diagrams
