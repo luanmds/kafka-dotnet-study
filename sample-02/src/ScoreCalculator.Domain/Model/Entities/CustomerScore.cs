@@ -2,19 +2,13 @@
 
 public class CustomerScore : Entity
 {
-    public decimal Debts { get; set; }
-    public int? Score { get; internal set; }
+    public double Debts { get; set; }
     public DateTime CreatedAt { get; }
 
-    public CustomerScore(decimal debts)
+    public CustomerScore(double debts)
     {
         Id = Guid.NewGuid().ToString();
         CreatedAt = DateTime.Now;
         Debts = debts;
-    }
-
-    public void SetScore(int score)
-    {
-        Score ??= score;
     }
 }

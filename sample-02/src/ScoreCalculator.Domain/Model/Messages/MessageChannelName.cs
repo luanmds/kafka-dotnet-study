@@ -1,4 +1,4 @@
-namespace ScoreCalculator.Domain.MessageBus;
+namespace ScoreCalculator.Domain.Model.Messages;
 
 public static class MessageChannelName 
 {

@@ -14,6 +14,8 @@ The Worker project focuses on action to calculate score:
 -  Receive Command to calculate score for customer and persists it in the database.
 - Receive Command as Compensating Transaction to cancel a calculation process and remove all scores calculated in database.
 
+This project uses a **JSON schema** from *Schema-Registry* to keep a message format compatible between apps.
+
 ## Basic diagrams (Make in Mermaid.js)
 ### Flow diagram
 
@@ -85,18 +87,19 @@ The Worker project focuses on action to calculate score:
         activate L
         L->>L: Select handler according <br/> command message 
         L->>DB: Update status to Cancel 
-        L->>K: Send command to remove all data from process
         deactivate L
-
-        activate W
-        K->>W: Select handler according <br/> command message 
-        W->>W: Remove all data from process
-        deactivate W
 ```
 
 ---
 
 ## How to Run
+
+### Before Run the project
+
+- Run docker-compose.yml in **/docker-kafka** directory 
+- Run the shell script in **/docker-kafka/schemas** directory to create necessary schema to running this project!
+
+### To Run this project
 
 1. Install Docker and Docker-Compose your machine;
 2. Execute the docker-compose.yaml file to Run project;

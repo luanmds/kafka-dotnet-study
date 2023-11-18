@@ -22,6 +22,8 @@ References:
 - [Kafka CLI](https://medium.com/@TimvanBaarsen/apache-kafka-cli-commands-cheat-sheet-a6f06eac01b#8c2f)
 - [Kafdrop - Kafka Client](https://github.com/obsidiandynamics/kafdrop)
 - [Configs to Kafka in various machines types](https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/)
+- [Schema Registry API](https://docs.confluent.io/platform/current/schema-registry/develop/api.html)
+- [JsonSchema to Schema Registry](https://json-schema.org/)
 
 Others References:
 - [Saga Pattern]()

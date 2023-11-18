@@ -1,4 +1,4 @@
-namespace ScoreCalculator.Domain.MessageBus;
+namespace ScoreCalculator.Domain.MessageBus.Settings;
 
 public class KafkaSettings
 {
@@ -7,4 +7,5 @@ public class KafkaSettings
     public string? ConsumerTopicName { get; set; } = null!;
 
     public string? PublishTopicName { get; set; } = null!;
+
 }

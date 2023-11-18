@@ -7,5 +7,6 @@ public class Entity
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public required string Id { get; set; }
+    public string Id { get; set; }
+
 }

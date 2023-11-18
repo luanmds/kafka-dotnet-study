@@ -23,4 +23,19 @@ public class CalculateProcessRepository
         await _collection
             .Find(x => x.Id == id)
             .FirstOrDefaultAsync();
+
+    public async Task SaveAsync(CalculateProcess calculateProcess) 
+    {
+        await _collection.InsertOneAsync(calculateProcess);
+    }
+
+    public async Task UpdateAsync(CalculateProcess calculateProcess) 
+    {
+        var filter = Builders<CalculateProcess>.Filter
+            .Eq(x => x.Id, calculateProcess.Id);
+
+        var update = Builders<CalculateProcess>.Update.Set(x => x.Status, calculateProcess.Status);
+
+        await _collection.UpdateOneAsync(filter, update);
+    }
 }

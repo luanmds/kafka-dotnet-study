@@ -11,7 +11,7 @@ public class CalculateProcess : Entity
         Status = ProcessStatus.RUNNING;
     }
 
-    public void CompletProcess()
+    public void CompleteProcess()
     {
         Status = ProcessStatus.COMPLETED;
     }
