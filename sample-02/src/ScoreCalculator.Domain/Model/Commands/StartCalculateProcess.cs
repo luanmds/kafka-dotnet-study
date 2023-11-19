@@ -1,14 +1,14 @@
-﻿using ScoreCalculator.Domain.MessageBus;
+﻿using ScoreCalculator.Domain.Model.Entities;
 
 namespace ScoreCalculator.Domain.Model.Commands;
 
 public class StartCalculateProcess : Command
 {
-    public string ProcessId { get; private set; }
+    public CalculateProcess CalculateProcess { get; private set; }
     
-    public StartCalculateProcess(string processId, string sagaKey) : base(sagaKey)
+    public StartCalculateProcess(CalculateProcess calculateProcess, string sagaKey) : base(sagaKey)
     {
-        ProcessId = processId;
+        CalculateProcess = calculateProcess;
     }
 
 }

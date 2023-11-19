@@ -9,7 +9,7 @@ namespace ScoreCalculator.Domain.CommandHandlers;
 
 public class StartCalculateProcessCommandHandler : IRequestHandler<StartCalculateProcess, Unit>
 {
-    private const long TotalCustomers = 10000;
+    private const long TotalCustomers = 1000000;
     private readonly ILogger _logger;
     private readonly KafkaPublisherMessage _publisher;
     private readonly CalculateProcessRepository _repository;
@@ -27,17 +27,16 @@ public class StartCalculateProcessCommandHandler : IRequestHandler<StartCalculat
     {
         _logger.LogInformation("Handler from command {command} received", typeof(StartCalculateProcess));
 
-        var calculateProcess = new CalculateProcess();
         _logger.LogInformation("Start Calculate Process with Id {id} for {total} customers ", 
-            calculateProcess.Id, TotalCustomers);
+            request.CalculateProcess.Id, TotalCustomers);
 
-        await _repository.SaveAsync(calculateProcess);
+        await _repository.SaveAsync(request.CalculateProcess);
 
         for(long i = 0; i < TotalCustomers; i++)
         {
             var nextCommand = new CalculateScore(
                 GenerateCustomerScore(),
-                calculateProcess.Id,
+                request.CalculateProcess.Id,
                 i == TotalCustomers - 1,
                 request.SagaKey
             );

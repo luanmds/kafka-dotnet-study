@@ -1,51 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using ScoreCalculator.Domain.MessageBus;
 using ScoreCalculator.Domain.Model.Commands;
-using ScoreCalculator.Domain.Model.Queries;
-using ScoreCalculator.Domain.DTOs;
-using ScoreCalculator.Domain.Repository;
+using ScoreCalculator.Domain.Model.Entities;
 
-namespace ScoreCalculator.Api.Controllers
+namespace ScoreCalculator.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ScoreController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ScoreController : ControllerBase
+    private readonly KafkaPublisherMessage _publisherMessage;
+
+    public ScoreController(KafkaPublisherMessage publisherMessage)
     {
-        private readonly ILogger<ScoreController> _logger;
-        private readonly GenerateURL _command;
-        private readonly GetUrlGeneratedByIdQueryHandler _getUrlGeneratedByIdQueryHandler;
-        private readonly GetOriginalUrlByCodeUrlQueryHandler _getOriginalUrlByCodeUrlQueryHandler;
-
-        public ScoreController(ILogger<ScoreController> logger,
-            GenerateURL command, 
-            GetUrlGeneratedByIdQueryHandler getUrlGeneratedByIdQueryHandler,
-            GetOriginalUrlByCodeUrlQueryHandler getOriginalUrlByCodeUrlQueryHandler)
-        {
-            _logger = logger;
-            _command = command;
-            _getUrlGeneratedByIdQueryHandler = getUrlGeneratedByIdQueryHandler;
-            _getOriginalUrlByCodeUrlQueryHandler = getOriginalUrlByCodeUrlQueryHandler;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<GetUrlGeneratedByIdQuery>> ShortenUrl([FromBody] OriginalUrlDTO dto)
-        {
-            // call command
-            var id = await _command.Shorten(dto.url);
-            // call query
-            var query = await _getUrlGeneratedByIdQueryHandler.HandleAsync(id);
-            return query;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<string>> GetUrlShortenedData([FromQuery] string codeUrl)
-        {
-            var query = await _getOriginalUrlByCodeUrlQueryHandler.HandleAsync(codeUrl);
-            return query.OriginalUrl;
-        }
+        _publisherMessage = publisherMessage;
     }
+
+    [HttpPost]
+    public async Task<ActionResult> StartCalculate()
+    {
+        var command = GetCommand(new CalculateProcess());
+
+        await _publisherMessage.Publish(command, default);
+
+        return Ok(command.CalculateProcess.Id);
+    }
+
+    [HttpPost("cancel")]
+    public async Task<ActionResult> CancelCalculate(string processId)
+    {
+        var command = new CancelCalculateScore(processId, processId);
+
+        await _publisherMessage.Publish(command, default);
+
+        return Ok("Cancellation of the process has been initialize");
+    }
+
+    private StartCalculateProcess GetCommand(CalculateProcess data)
+        => new(data, data.Id);
+
 }
