@@ -106,7 +106,7 @@ The Worker project focuses on action to calculate score:
 
 ### To Run this project
 
-1. Install Docker and Docker-Compose your machine;
-2. Execute the docker-compose.yaml file to Run project;
-3. Open your favorite browser in [http://localhost:8000/swagger];
+1. Execute the docker-compose.yaml file in project root directory to run project;
+2. Open your favorite browser in [http://localhost:8000/swagger];
+3. Follow container logs in docker to see flow working;
 
