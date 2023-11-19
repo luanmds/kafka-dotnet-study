@@ -10,13 +10,13 @@ using ScoreCalculator.Domain.MessageBus.Settings;
 namespace ScoreCalculator.Api;
 
 public class Startup
-{
+{    
+    public IConfiguration Configuration { get; }
+    
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
     }
-
-    public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -25,6 +25,9 @@ public class Startup
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "ScoreCalculator.Api", Version = "v1" });
         });
+
+        
+
         
         var kafkaSettings = Configuration.GetRequiredSection("KafkaSettings").Get<KafkaSettings>();
         var schemaSettings = Configuration.GetRequiredSection("SchemaRegistrySettings").Get<SchemaRegistrySettings>();

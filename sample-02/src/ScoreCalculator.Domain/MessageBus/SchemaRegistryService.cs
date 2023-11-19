@@ -24,4 +24,6 @@ public class SchemaRegistryService
 
         return new JsonSerializer<MessageData>(client);
     }    
+
+    public static IAsyncDeserializer<MessageData> GetDeserializer() => new JsonDeserializer<MessageData>();
 }

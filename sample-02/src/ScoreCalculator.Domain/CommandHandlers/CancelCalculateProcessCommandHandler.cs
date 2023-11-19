@@ -7,10 +7,10 @@ namespace ScoreCalculator.Domain.CommandHandlers;
 
 public class CancelCalculateScoreCommandHandler : IRequestHandler<CancelCalculateScore, Unit>
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<CancelCalculateScoreCommandHandler> _logger;
     private readonly CalculateProcessRepository _repository;
 
-    public CancelCalculateScoreCommandHandler(CalculateProcessRepository repository, Logger<CancelCalculateScoreCommandHandler> logger)
+    public CancelCalculateScoreCommandHandler(CalculateProcessRepository repository, ILogger<CancelCalculateScoreCommandHandler> logger)
     {
         _logger = logger;
         _repository = repository;

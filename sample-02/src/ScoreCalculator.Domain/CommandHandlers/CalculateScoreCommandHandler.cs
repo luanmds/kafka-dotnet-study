@@ -8,10 +8,10 @@ namespace ScoreCalculator.Domain.CommandHandlers;
 
 public class CalculateScoreCommandHandler : IRequestHandler<CalculateScore, Unit>
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<CalculateScoreCommandHandler> _logger;
     private readonly CalculateProcessRepository _repository;
 
-    public CalculateScoreCommandHandler(CalculateProcessRepository repository, Logger<CalculateScoreCommandHandler> logger)
+    public CalculateScoreCommandHandler(CalculateProcessRepository repository, ILogger<CalculateScoreCommandHandler> logger)
     {
         _logger = logger;
         _repository = repository;
@@ -19,20 +19,22 @@ public class CalculateScoreCommandHandler : IRequestHandler<CalculateScore, Unit
 
     public async Task<Unit> Handle(CalculateScore request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Handler from command {command} received", typeof(CalculateScore));
+        _logger.LogInformation("[CalculateScore] Handler from command {command} received", typeof(CalculateScore));
 
         var process = await _repository.GetByIdAsync(request.ProcessId) ??
             throw new Exception("Calculate Process Not Found");
 
         if(process.Status == ProcessStatus.CANCELLED)
         {
-            _logger.LogInformation("Calculate Process has been cancelled. Customer {customerId}", request.CustomerScore.Id);
+            _logger.LogInformation("[CalculateScore] Calculate Process has been cancelled. Customer {customerId}", request.CustomerScore.Id);
             return Unit.Value;
         }
 
+        Thread.Sleep(5000);
+
         var score = GetScore(request.CustomerScore.Debts);
 
-        _logger.LogInformation("Calculate Score to customer {}. Debts = {debts}, Score = {score}", 
+        _logger.LogInformation("[CalculateScore] Calculate Score to customer {}. Debts = {debts}, Score = {score}", 
             request.CustomerScore.Id, request.CustomerScore.Debts, score);
 
         return Unit.Value;

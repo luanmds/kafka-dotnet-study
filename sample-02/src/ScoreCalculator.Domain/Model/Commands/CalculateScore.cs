@@ -4,13 +4,13 @@ namespace ScoreCalculator.Domain.Model.Commands;
 
 public class CalculateScore : Command
 {   
-    public CustomerScore CustomerScore { get; private set; }
+    public CustomerScore CustomerScore { get; set; }
     public string ProcessId { get; }
     public bool IsEndOfProcess { get; }
 
-    public CalculateScore(CustomerScore data, string processId, bool isEndOfProcess, string sagaKey) : base(sagaKey)
+    public CalculateScore(CustomerScore customerScore, string processId, bool isEndOfProcess, string sagaKey) : base(sagaKey)
     {
-        CustomerScore = data;        
+        CustomerScore = customerScore;        
         ProcessId = processId;
         IsEndOfProcess = isEndOfProcess;
     }

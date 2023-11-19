@@ -9,13 +9,13 @@ namespace ScoreCalculator.Domain.CommandHandlers;
 
 public class StartCalculateProcessCommandHandler : IRequestHandler<StartCalculateProcess, Unit>
 {
-    private const long TotalCustomers = 1000000;
-    private readonly ILogger _logger;
+    private const long TotalCustomers = 10;
+    private readonly ILogger<StartCalculateProcessCommandHandler> _logger;
     private readonly KafkaPublisherMessage _publisher;
     private readonly CalculateProcessRepository _repository;
     private readonly Random _random;
 
-    public StartCalculateProcessCommandHandler(KafkaPublisherMessage publisher, CalculateProcessRepository repository, Logger<StartCalculateProcessCommandHandler> logger)
+    public StartCalculateProcessCommandHandler(KafkaPublisherMessage publisher, CalculateProcessRepository repository, ILogger<StartCalculateProcessCommandHandler> logger)
     {
         _logger = logger;
         _publisher = publisher;
@@ -25,9 +25,9 @@ public class StartCalculateProcessCommandHandler : IRequestHandler<StartCalculat
 
     public async Task<Unit> Handle(StartCalculateProcess request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Handler from command {command} received", typeof(StartCalculateProcess));
+        _logger.LogInformation("[StartCalculateProcess] Handler from command {command} received", typeof(StartCalculateProcess));
 
-        _logger.LogInformation("Start Calculate Process with Id {id} for {total} customers ", 
+        _logger.LogInformation("[StartCalculateProcess] Start Calculate Process with Id {id} for {total} customers ", 
             request.CalculateProcess.Id, TotalCustomers);
 
         await _repository.SaveAsync(request.CalculateProcess);

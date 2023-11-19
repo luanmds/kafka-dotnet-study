@@ -41,8 +41,8 @@ public class KafkaPublisherMessage
         if (deliveryResult.Status == PersistenceStatus.NotPersisted)
             _logger.LogError("Produce not delivered message in Topic {topic}", deliveryResult.Topic);
         else
-            _logger.LogInformation("Produce delivered message in Topic {topic} and Partition {partition}", 
-                deliveryResult.Topic, deliveryResult.Partition);
+            _logger.LogInformation("Produce delivered message {type} in Topic {topic} and Partition {partition}", 
+                data.MessageType, deliveryResult.Topic, deliveryResult.Partition);
 
     }
 

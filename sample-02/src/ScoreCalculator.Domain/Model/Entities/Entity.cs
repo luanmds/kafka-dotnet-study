@@ -1,12 +1,12 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace ScoreCalculator.Domain.Model.Entities;
 
 public class Entity
 {
     [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
+    [JsonProperty(PropertyName = "Id")]
     public string Id { get; set; }
 
 }
