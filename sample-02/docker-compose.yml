@@ -2,29 +2,29 @@ version: "3.8"
 services:
   api:
     build: 
-      context: src/ScoreCalculator.Api
-      dockerfile: Dockerfile
+      context: .    
+      dockerfile: Dockerfile.Api
     ports:
       - "8000:80"
+    networks: 
+      - proxy-net
     links:
       - mongo
-  loader:
-    build: 
-      context: src/ScoreCalculator.Loader
-      dockerfile: Dockerfile.loader
-    links:
+    depends_on:
       - mongo
-  worker:
-    build: 
-      context: src/ScoreCalculator.Worker
-      dockerfile: Dockerfile.worker
-    links:
-      - mongo
+  
   mongo:
     image: mongo
     restart: always
+    networks: 
+      - proxy-net
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     ports:
       - "27017:27017"
+
+networks: 
+  proxy-net:
+    external: 
+      name: kafka_network  

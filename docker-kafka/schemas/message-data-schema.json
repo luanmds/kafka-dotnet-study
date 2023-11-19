@@ -1,6 +1,6 @@
 {
     "schema":
-    "{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"$comment\":\"SchemaforMessageDatausedinSample02\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"TheIdentifierofthemessage\"},\"message\":{\"type\":\"string\",\"description\":\"Thedataofmessage\"},\"message_type\":{\"type\":\"string\",\"description\":\"Themessagetypeofdata(example:ClassName)\"}},\"required\":[\"id\",\"message\",\"message_type\"]}",
+    "{\"$comment\":\"SchemaforMessageDatausedinSample02\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"TheIdentifierofthemessage\"},\"message\":{\"type\":\"string\",\"description\":\"Thedataofmessage\"},\"message_type\":{\"type\":\"string\",\"description\":\"Themessagetypeofdata(example:ClassName)\"}},\"required\":[\"id\",\"message\",\"message_type\"]}",
     "schemaType": "JSON"
 }
 

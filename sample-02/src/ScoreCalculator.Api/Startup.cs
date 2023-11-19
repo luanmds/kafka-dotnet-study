@@ -4,8 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MongoDB.Driver;
-using ScoreCalculator.Domain.Repository;
+using ScoreCalculator.Domain.MessageBus;
+using ScoreCalculator.Domain.MessageBus.Settings;
 
 namespace ScoreCalculator.Api;
 
@@ -25,11 +25,14 @@ public class Startup
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "ScoreCalculator.Api", Version = "v1" });
         });
-
-        var databaseSettings = Configuration.GetSection("ScoreDatabaseSettings").Get<DatabaseSettings>();
         
-        services.AddSingleton<DatabaseSettings>(databaseSettings);
-        services.AddSingleton<IMongoClient>(s => new MongoClient(databaseSettings.ConnectionString));
+        var kafkaSettings = Configuration.GetRequiredSection("KafkaSettings").Get<KafkaSettings>();
+        var schemaSettings = Configuration.GetRequiredSection("SchemaRegistrySettings").Get<SchemaRegistrySettings>();
+      
+        services.AddSingleton(kafkaSettings);
+        services.AddSingleton(schemaSettings);
+        services.AddTransient<SchemaRegistryService>();
+        services.AddTransient<KafkaPublisherMessage>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,10 +52,5 @@ public class Startup
         {
             endpoints.MapControllers();
         });
-    }
-
-    private void AddCommands()
-    {
-        
     }
 }

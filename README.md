@@ -8,12 +8,12 @@ This repository contains any sample projects to integration between .Net and Apa
 
 1. Install Docker and Docker Compose 
 2. Install .NET Core >= 7.0
-3. Starts Kafka running the **docker-compose.yml** located in the docker-kafka directory with commmand:
+3. Starts Kafka running the **docker-compose.yml** located in the **/docker-kafka** directory with commmand:
 
 ```bash
 $ docker-compose up -d
 ```
-4. Create a topic with name **topic-test** in Kafka Client on localhost:19000.
+4. This command creates the necessaries topics to samples
 
 
 References:
@@ -24,10 +24,6 @@ References:
 - [Configs to Kafka in various machines types](https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/)
 - [Schema Registry API](https://docs.confluent.io/platform/current/schema-registry/develop/api.html)
 - [JsonSchema to Schema Registry](https://json-schema.org/)
-
-Others References:
-- [Saga Pattern]()
-- [Compensating Transactions]()
 
 
 ## Sample 01 - Basic Consumer and Producer Services
@@ -59,10 +55,15 @@ Both projects will be run and send a default message instantly. You can see the 
 
 ## Sample 02 - Complete Example with CQRS, Kafka and MediatR framework
 
-There are three .Net projects to simulate a simple ScoreCalculator application
+There are three .Net projects to simulate a simple ScoreCalculator application using 
+the concepts of CQRS, integration Kafka/.Net and Schema Registry.
+
+Kafka is responsible to integrate the apps in ScoreCalculator across messages.
 
 ### How Execute
 
 First, follow instructions in **Before running a Sample Project** section.
 
-[step by step instructions to run]
+1. Execute the docker-compose.yaml file in project root directory to run project;
+2. Open your favorite browser in [http://localhost:8000/swagger];
+3. Follow container logs in docker to see flow working;
