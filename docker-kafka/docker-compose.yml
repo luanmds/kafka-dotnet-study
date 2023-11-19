@@ -1,22 +1,41 @@
 version: '3'
 services:
+  schema-registry:
+    image: bitnami/schema-registry:latest
+    container_name: schemaregistry
+    ports:
+      - "8081:8081"
+    networks:
+      - proxy-net
+    environment:
+      SCHEMA_REGISTRY_DEBUG: "true"
+      SCHEMA_REGISTRY_KAFKA_BROKERS: PLAINTEXT://kafka:9092
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:9092
+      SCHEMA_REGISTRY_HOST_NAME: localhost
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      SCHEMA_REGISTRY_CLIENT_AUTHENTICATION: NONE
+      
   zookeeper:
     image: bitnami/zookeeper:latest
+    container_name: zookeeper
     ports:
       - "2181:2181"
     networks: 
-      - broker-kafka
+      - proxy-net
     environment:
       ALLOW_ANONYMOUS_LOGIN: 'yes'
 
   kafka:
     image: bitnami/kafka:3.5.1
+    container_name: kafka
     networks: 
-      - broker-kafka
+      - proxy-net
     depends_on:
       - zookeeper
     ports:
       - 19092:19092
+    expose:
+      - "9092"
     environment:
       KAFKA_CFG_NODE_ID: 0
       KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,EXTERNAL://:19092 
@@ -24,13 +43,14 @@ services:
       KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_CFG_NUM_PARTITIONS: 1
-      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: false
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "false"
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
     networks: 
-      - broker-kafka
+      - proxy-net
     depends_on:
       - kafka
     ports:
@@ -38,6 +58,30 @@ services:
     environment:
       KAFKA_BROKERCONNECT: kafka:9092
 
+  # Create topics automatically in Kafka To Samples
+  init-kafka:
+    image: confluentinc/cp-kafka:6.1.1
+    container_name: init-kafka
+    networks:
+      - proxy-net
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:9092 --list
+
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic topic-test --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic loader-topic --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic worker-topic --replication-factor 1 --partitions 1
+
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      "
+
+
 networks: 
-  broker-kafka:
-    driver: bridge  
+  proxy-net:
+    name: kafka_network  

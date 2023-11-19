@@ -1,0 +1,10 @@
+{
+    "schema": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"title\":\"MessageData\",\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"id\",\"message\",\"message_type\"],\"properties\":{\"id\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"message_type\":{\"type\":\"string\"}}}",
+    "schemaType": "JSON",
+    "additionalProperties": true
+}
+
+
+
+  
+  

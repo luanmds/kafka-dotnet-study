@@ -1,6 +1,6 @@
-# Study about Apache Kafka
+# Study about Apache Kafka and Dotnet
 
-This repository contains any projects test using Apache Kafka Topics.
+This repository contains any sample projects to integration between .Net and Apache Kafka.
 
 ## Before running a Sample Project
 
@@ -8,12 +8,12 @@ This repository contains any projects test using Apache Kafka Topics.
 
 1. Install Docker and Docker Compose 
 2. Install .NET Core >= 7.0
-3. Starts Kafka running the **docker-compose.yml** located in the docker-kafka directory with commmand:
+3. Starts Kafka running the **docker-compose.yml** located in the **/docker-kafka** directory with commmand:
 
 ```bash
 $ docker-compose up -d
 ```
-4. Create a topic with name **topic-test** in Kafka Client on localhost:19000.
+4. This command creates the necessaries topics to samples
 
 
 References:
@@ -22,6 +22,8 @@ References:
 - [Kafka CLI](https://medium.com/@TimvanBaarsen/apache-kafka-cli-commands-cheat-sheet-a6f06eac01b#8c2f)
 - [Kafdrop - Kafka Client](https://github.com/obsidiandynamics/kafdrop)
 - [Configs to Kafka in various machines types](https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/)
+- [Schema Registry API](https://docs.confluent.io/platform/current/schema-registry/develop/api.html)
+- [JsonSchema to Schema Registry](https://json-schema.org/)
 
 
 ## Sample 01 - Basic Consumer and Producer Services
@@ -51,12 +53,17 @@ dotnet run --project ./ConsoleProducer/
 ```
 Both projects will be run and send a default message instantly. You can see the generated message in Console terminal output and Kafka UI in **localhost:19000**.
 
-## Sample 02 - Complex Example with CQRS, Kafka and MediatR framework
+## Sample 02 - Complete Example with CQRS, Kafka and MediatR framework
 
-[description of projects]
+There are three .Net projects to simulate a simple ScoreCalculator application using 
+the concepts of CQRS, integration Kafka/.Net and Schema Registry.
+
+Kafka is responsible to integrate the apps in ScoreCalculator across messages.
 
 ### How Execute
 
 First, follow instructions in **Before running a Sample Project** section.
 
-[step by step instructions to run]
+1. Execute the docker-compose.yaml file in project root directory to run project;
+2. Open your favorite browser in [http://localhost:8000/swagger];
+3. Follow container logs in docker to see flow working;

@@ -1,0 +1,71 @@
+version: "3.8"
+services:
+  api:
+    build: 
+      context: .    
+      dockerfile: Dockerfile.Api
+    environment:
+      - KafkaSettings__ConnString=kafka:9092
+      - KafkaSettings__PublishTopicName=loader-topic
+      - SchemaRegistrySettings__SchemaRegistryUrl=schema-registry:8081
+    ports:
+      - "8000:80"
+    expose:
+      - "8000"
+    networks: 
+      - proxy-net
+    links:
+      - mongo
+    depends_on:
+      - mongo
+
+  loader:
+    build: 
+      context: .    
+      dockerfile: Dockerfile.Loader
+    environment:
+      - KafkaSettings__ConnString=kafka:9092
+      - KafkaSettings__ConsumerTopicName=loader-topic
+      - KafkaSettings__PublishTopicName=worker-topic
+      - SchemaRegistrySettings__SchemaRegistryUrl=schema-registry:8081
+      - ScoreDatabaseSettings__ConnectionString=mongodb://root:root@mongo:27017
+      - ScoreDatabaseSettings__DatabaseName=ScoreDB
+    networks: 
+      - proxy-net
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    
+  worker:
+    build: 
+      context: .    
+      dockerfile: Dockerfile.Worker
+    environment:
+      - KafkaSettings__ConnString=kafka:9092
+      - KafkaSettings__ConsumerTopicName=worker-topic
+      - SchemaRegistrySettings__SchemaRegistryUrl=schema-registry:8081
+      - ScoreDatabaseSettings__ConnectionString=mongodb://root:root@mongo:27017
+      - ScoreDatabaseSettings__DatabaseName=ScoreDB
+    networks: 
+      - proxy-net
+    links:
+      - mongo
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    restart: always
+    networks: 
+      - proxy-net
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+
+networks: 
+  proxy-net:
+    external: 
+      name: kafka_network  
