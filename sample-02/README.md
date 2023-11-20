@@ -104,9 +104,19 @@ The Worker project focuses on action to calculate score:
 - Run docker-compose.yml in **/docker-kafka** directory to start kafka platform and create topics necessary to this project. 
 - Run the shell script (.sh) in **/docker-kafka/schemas** directory to create necessary schema to running this project!
 
-### To Run this project
+### To Run this project using Docker
 
 1. Execute the docker-compose.yaml file in project root directory to run project;
 2. Open your favorite browser in [http://localhost:8000/swagger];
 3. Follow container logs in docker to see flow working;
 
+### To Run this project in your machine using DotNet
+
+1. Runs all *.csproj files using commands:
+```bash
+dotnet run --project src/ScoreCalculator.Api
+dotnet run --project src/ScoreCalculator.Loader
+dotnet run --project src/ScoreCalculator.Worker
+```
+2. Open your favorite browser in [http://localhost:8000/swagger];
+3. Follow terminal console logs to see flow working.
