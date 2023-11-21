@@ -16,19 +16,22 @@ The Worker project focuses on action to calculate score:
 - Receive Command to calculate score for customer and persists it in the database.
 - Receive Command as Compensating Transaction to cancel a calculation process and remove all scores calculated in database.
 
-## Basic diagrams (Make in Mermaid.js)
+## Basic diagrams (In Mermaid.js)
 ### Flow messages diagram
 
 ```mermaid
     flowchart LR
+        A[Api]
+        D[Loader]
+        E[Worker]
         B(SchemaRegistry)
-        C(Kafka Topic) 
-        A[Api] -->|De/Serialize Message| B
-        A[Api] -->|Send Message <br/>| C 
-        D[Loader] -->|Send/Receive Message| C
-        D[Loader] -->|De/Serialize Message| B 
-        E[Worker] -->|Receive Message| C
-        E[Worker] -->|Deserialize Message| B 
+        C(Kafka Topic)
+        
+        E -->|Receive Message| C
+        A -->|Send Message <br/>| C 
+        D -->|Send/Receive Message| C
+
+        C --> |De/Serialize Messages| B       
 
 ```
 
